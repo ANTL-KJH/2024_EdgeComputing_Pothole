@@ -1,15 +1,20 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
 from tensorflow.keras.optimizers import Adam
 import matplotlib.pyplot as plt
 
 # 데이터 경로 설정
-data_dir = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\data'
+data_dir = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\alpha_class'
 
 # 이미지 데이터 제너레이터 설정
-train_datagen = ImageDataGenerator(rescale=1./255, validation_split=0.2)
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    zoom_range=0.2,  # 확대 축소 범위
+    fill_mode='nearest',  # 빈 픽셀 채우기 방식
+    validation_split=0.2  # 검증 데이터 비율
+)
 
 train_generator = train_datagen.flow_from_directory(
     data_dir,
@@ -30,17 +35,24 @@ validation_generator = train_datagen.flow_from_directory(
 # 모델 구성
 model = Sequential([
     Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
+    BatchNormalization(),
     MaxPooling2D((2, 2)),
     Conv2D(64, (3, 3), activation='relu'),
+    BatchNormalization(),
     MaxPooling2D((2, 2)),
     Conv2D(128, (3, 3), activation='relu'),
+    BatchNormalization(),
+    MaxPooling2D((2, 2)),
+    Conv2D(256, (3, 3), activation='relu'),
+    BatchNormalization(),
     MaxPooling2D((2, 2)),
     Flatten(),
     Dense(512, activation='relu'),
     Dropout(0.5),
-    Dense(26, activation='softmax')  # 클래스 수에 맞게 수정
+    Dense(512, activation='relu'),
+    Dropout(0.5),
+    Dense(26, activation='softmax')
 ])
-
 # 모델 컴파일
 model.compile(optimizer=Adam(),
               loss='categorical_crossentropy',
