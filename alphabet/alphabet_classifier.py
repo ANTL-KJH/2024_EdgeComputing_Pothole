@@ -64,7 +64,7 @@ history = model.fit(
     steps_per_epoch=train_generator.samples // train_generator.batch_size,
     validation_data=validation_generator,
     validation_steps=validation_generator.samples // validation_generator.batch_size,
-    epochs=100
+    epochs=300
 )
 
 # 학습 결과 시각화
@@ -73,7 +73,7 @@ val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-epochs_range = range(100)
+epochs_range = range(300)
 
 plt.figure(figsize=(8, 8))
 plt.subplot(1, 2, 1)

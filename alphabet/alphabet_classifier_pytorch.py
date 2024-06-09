@@ -1,99 +1,116 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
+from torchvision import transforms, models
+from torch.utils.data import DataLoader, Dataset
+from PIL import Image
+import os
+import copy
 
-# 데이터 경로 설정
-data_dir = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\alpha_class'
+# 커스텀 데이터셋 클래스 정의
+class CustomDataset(Dataset):
+    def __init__(self, image_folder, label, transform=None):
+        self.image_folder = image_folder
+        self.label = label
+        self.transform = transform
+        self.image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if img.endswith(('jpg', 'jpeg', 'png'))]
 
-# 이미지 데이터 변환 설정
-transform = transforms.Compose([
-    transforms.Resize((150, 150)),
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-])
+    def __len__(self):
+        return len(self.image_paths)
 
-# 데이터셋 생성
-train_dataset = datasets.ImageFolder(root=data_dir, transform=transform)
+    def __getitem__(self, idx):
+        img_path = self.image_paths[idx]
+        image = Image.open(img_path).convert('RGB')
+        if self.transform:
+            image = self.transform(image)
+        return image, self.label
 
-# 데이터로더 생성
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+# 데이터 전처리
+data_transforms = {
+    'train': transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+}
 
-# 모델 구성
-class CNN(nn.Module):
-    def __init__(self):
-        super(CNN, self).__init__()
-        self.conv_layers = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(2),
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.MaxPool2d(2),
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.MaxPool2d(2),
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.MaxPool2d(2)
-        )
-        self.fc_layers = nn.Sequential(
-            nn.Linear(256 * 9 * 9, 512),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-            nn.Linear(512, 26),
-            nn.Softmax(dim=1)
-        )
+def load_datasets(data_dir):
+    train_datasets = []
+    class_names = []
+    for idx, class_folder in enumerate(sorted(os.listdir(data_dir))):
+        folder_path = os.path.join(data_dir, class_folder)
+        if os.path.isdir(folder_path):
+            train_datasets.append(CustomDataset(folder_path, idx, data_transforms['train']))
+            class_names.append(class_folder)
+    return train_datasets, class_names
 
-    def forward(self, x):
-        x = self.conv_layers(x)
-        x = x.view(-1, 256 * 9 * 9)
-        x = self.fc_layers(x)
-        return x
+def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
+    best_model_wts = copy.deepcopy(model.state_dict())
+    best_acc = 0.0
 
-# 모델 생성
-model = CNN()
+    for epoch in range(num_epochs):
+        print(f'Epoch {epoch}/{num_epochs - 1}')
+        print('-' * 10)
 
-# 모델 컴파일
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters())
+        model.train()  # 학습 모드
 
-# 모델 학습
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
+        running_loss = 0.0
+        running_corrects = 0
 
-epochs = 100
-train_losses = []
-for epoch in range(epochs):
-    running_loss = 0.0
-    for inputs, labels in train_loader:
-        inputs, labels = inputs.to(device), labels.to(device)
+        for inputs, labels in train_loader:
+            inputs = inputs.to(device)
+            labels = labels.to(device)
 
-        optimizer.zero_grad()
+            optimizer.zero_grad()
 
-        outputs = model(inputs)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
+            with torch.set_grad_enabled(True):
+                outputs = model(inputs)
+                _, preds = torch.max(outputs, 1)
+                loss = criterion(outputs, labels)
 
-        running_loss += loss.item()
-    epoch_loss = running_loss / len(train_loader)
-    train_losses.append(epoch_loss)
-    print(f"Epoch {epoch+1}/{epochs}, Loss: {epoch_loss}")
+                loss.backward()
+                optimizer.step()
 
-# 학습 결과 시각화
-plt.plot(train_losses, label='Training Loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.title('Training Loss over Epochs')
-plt.legend()
-plt.show()
+            running_loss += loss.item() * inputs.size(0)
+            running_corrects += torch.sum(preds == labels.data)
 
-# 모델 저장
-torch.save(model.state_dict(), 'image_classifier_model.pth')
+        epoch_loss = running_loss / len(train_loader.dataset)
+        epoch_acc = running_corrects.double() / len(train_loader.dataset)
+
+        print(f'Train Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
+
+        if epoch_acc > best_acc:
+            best_acc = epoch_acc
+            best_model_wts = copy.deepcopy(model.state_dict())
+
+    print(f'Best Train Acc: {best_acc:4f}')
+
+    model.load_state_dict(best_model_wts)
+    return model
+
+if __name__ == '__main__':
+    data_dir = 'alpha_class'
+    train_datasets, class_names = load_datasets(data_dir)
+
+    # 데이터 로더 구성
+    train_dataset = torch.utils.data.ConcatDataset(train_datasets)
+    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=4)
+
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    # 사전 학습된 모델 로드 및 수정
+    model = models.resnet18(pretrained=True)
+    num_ftrs = model.fc.in_features
+    model.fc = nn.Linear(num_ftrs, len(class_names))  # 출력 뉴런 수를 클래스 수로 변경
+
+    model = model.to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+
+    # 모델 학습
+    num_epochs = 25
+    model = train_model(model, criterion, optimizer, train_loader, num_epochs=num_epochs)
+
+    # 학습된 모델 저장
+    torch.save(model.state_dict(), 'best_model.pth')
