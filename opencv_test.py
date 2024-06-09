@@ -1,7 +1,7 @@
 import cv2
 
 # 이미지 파일 경로
-image_path = 'home/ubuntu/2024_EdgeComputing_Pothole/test/test_a.jpg'
+image_path = 'test_c.jpg'
 
 # 이미지 읽기
 image = cv2.imread(image_path)
