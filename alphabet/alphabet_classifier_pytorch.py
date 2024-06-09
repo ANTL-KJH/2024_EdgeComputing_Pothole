@@ -109,7 +109,7 @@ if __name__ == '__main__':
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
     # 모델 학습
-    num_epochs = 25
+    num_epochs = 50
     model = train_model(model, criterion, optimizer, train_loader, num_epochs=num_epochs)
 
     # 학습된 모델 저장
