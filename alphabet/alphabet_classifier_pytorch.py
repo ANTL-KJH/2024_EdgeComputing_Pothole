@@ -6,7 +6,10 @@ from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 import os
 import copy
+import warnings
 
+# 경고 무시
+warnings.filterwarnings("ignore")
 # 커스텀 데이터셋 클래스 정의
 class CustomDataset(Dataset):
     def __init__(self, image_folder, label, transform=None):
