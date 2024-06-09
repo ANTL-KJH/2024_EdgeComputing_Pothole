@@ -4,7 +4,9 @@ from torchvision import transforms, models
 from PIL import Image
 import matplotlib.pyplot as plt
 from matplotlib.widgets import RectangleSelector
+import matplotlib
 
+matplotlib.use('TkAgg')
 # 클래스 이름 리스트
 class_names = ['alpha_class_a', 'alpha_class_b', 'alpha_class_c', 'alpha_class_d', 'alpha_class_e',
                'alpha_class_f', 'alpha_class_g', 'alpha_class_h', 'alpha_class_i', 'alpha_class_j',
@@ -82,7 +84,7 @@ def onclick(event):
                                           minspanx=5,
                                           minspany=5,
                                           spancoords='pixels',
-                                          props=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
+                                          lineprops=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
         fig.canvas.draw()
 
 # RectangleSelector 설정
@@ -92,7 +94,7 @@ rect_selector = RectangleSelector(ax, onselect,
                                   minspanx=5,
                                   minspany=5,
                                   spancoords='pixels',
-                                  props=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
+                                  lineprops=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
 
 fig.canvas.mpl_connect('button_press_event', onclick)  # 마우스 클릭 이벤트 연결
 
