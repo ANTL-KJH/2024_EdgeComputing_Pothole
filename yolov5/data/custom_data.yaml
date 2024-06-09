@@ -1,0 +1,14 @@
+path: ./data
+train: train
+val: valid
+test: test
+
+nc: 2
+names: ['Pothole - v1 raw', 'pothole']
+
+roboflow:
+  workspace: pothole-f9e0l
+  project: -r66br
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/pothole-f9e0l/-r66br/dataset/2
