@@ -19,6 +19,7 @@ def load_and_prep_image(img, crop_coords=None, img_size=150):
     img = img.resize((img_size, img_size))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
+    
     img_array /= 255.  # 스케일링 
     return img_array
 
