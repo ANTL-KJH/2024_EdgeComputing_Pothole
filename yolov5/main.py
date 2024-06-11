@@ -1,8 +1,6 @@
 import threading
 import pothole_module.Pothole_GPS
-import pothole_module.Pothole_Yolo
-
-from detect import run_yolov5
+from pothole_module.Pothole_Yolo import run_yolov5
 
 
 class Pothole_detector:

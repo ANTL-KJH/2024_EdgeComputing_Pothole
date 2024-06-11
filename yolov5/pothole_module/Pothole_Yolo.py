@@ -267,8 +267,7 @@ def parse_opt():
 
 def run_yolov5():
     opt = parse_opt()
-    while True:
-        run(**vars(opt))
+    run(**vars(opt))
 
 
 if __name__ == "__main__":
