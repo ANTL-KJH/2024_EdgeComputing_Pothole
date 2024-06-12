@@ -5,7 +5,8 @@ import platform
 import sys
 from pathlib import Path
 import torch
-import pothole_module.Pothole_information
+import Pothole_information
+
 from ultralytics.utils.plotting import Annotator, colors, save_one_box
 from models.common import DetectMultiBackend
 from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreenshots, LoadStreams
@@ -27,7 +28,7 @@ from utils.general import (
 from utils.torch_utils import select_device, smart_inference_mode
 
 class PotholeDetector:
-    def __init__(self, info, weights='best.pt', source='data/images', data='data/coco128.yaml', imgsz=(640, 640), conf_thres=0.25, iou_thres=0.45, max_det=1000, device='', view_img=False, save_txt=False, save_csv=False, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project='runs/detect', name='exp', exist_ok=False, line_thickness=3, hide_labels=False, hide_conf=False, half=False, dnn=False, vid_stride=1):
+    def __init__(self, weights='best.pt', source='data/images', data='data/coco128.yaml', imgsz=(640, 640), conf_thres=0.25, iou_thres=0.45, max_det=1000, device='', view_img=False, save_txt=False, save_csv=False, save_conf=False, save_crop=False, nosave=False, classes=None, agnostic_nms=False, augment=False, visualize=False, update=False, project='runs/detect', name='exp', exist_ok=False, line_thickness=3, hide_labels=False, hide_conf=False, half=False, dnn=False, vid_stride=1):
         self.weights = Path(weights)
         self.source = Path(source)
         self.data = Path(data)
@@ -56,7 +57,7 @@ class PotholeDetector:
         self.half = half
         self.dnn = dnn
         self.vid_stride = vid_stride
-        self.info = info
+        self.info = Pothole_information.information()
 
     def write_to_csv(self, csv_path, image_name, prediction, confidence):
         """Writes prediction data for an image to a CSV file, appending if the file exists."""
@@ -144,6 +145,7 @@ class PotholeDetector:
                 annotator = Annotator(im0, line_width=self.line_thickness, example=str(names))
                 if len(det):
                     self.info.detect = True
+                    print(True)
                     det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
                     for c in det[:, 5].unique():
                         n = (det[:, 5] == c).sum()
@@ -199,6 +201,6 @@ class PotholeDetector:
     def run(self):
         self.detect()
 
-if __name__=="__main__":
-    info = Pothole_information.information()
-    PotholeDetector(info)
+if __name__ == "__main__":
+    detector = PotholeDetector()
+    detector.run()
