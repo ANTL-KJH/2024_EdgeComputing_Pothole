@@ -25,8 +25,8 @@ def test_model(model, input_tensor):
 # 메인 테스트 코드
 if __name__ == "__main__":
     # 모델 경로
-    yolov5s_model_path = "path/to/yolov5s.pt"
-    best_model_path = "path/to/best.pt"
+    yolov5s_model_path = "yolov5s.pt"
+    best_model_path = "best.pt"
 
     # 임의의 입력 텐서 생성 (batch_size=1, channels=3, height=640, width=640)
     input_tensor = torch.randn(1, 3, 640, 640)
