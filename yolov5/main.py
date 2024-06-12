@@ -1,4 +1,6 @@
 import threading
+import time
+
 import pothole_module.Pothole_GPS
 import pothole_module.Pothole_Yolo
 import pothole_module.Pothole_information
@@ -15,6 +17,7 @@ class Pothole_detector:
         yolov5_thread.start()
         while True:
             print(self.info.detect)
+            time.sleep(1)
 
 
 
