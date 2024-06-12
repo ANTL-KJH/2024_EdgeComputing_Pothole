@@ -6,7 +6,7 @@ import pynmea2
 
 class pothole_GPS:
     def __init__(self):
-        self.latitude = 35.830650
+        self.latitude = 35.830700
         self.logitude = 128.755062
 
     def read_gps_data(self):
