@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import torch
+import folium
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -46,7 +47,8 @@ class Pothole_detector:
     def __init__(self):
         self.info=pothole_module.Pothole_information.information()
         self.GPS = pothole_module.Pothole_GPS.pothole_GPS()
-
+        self.detect = False
+        self.m = folium.Map(location[35.830615, 128.754465], zoom_start=14)
 
     def run(self):
         yolov5_thread = threading.Thread(target=self.run_yolov5)
@@ -181,6 +183,7 @@ class Pothole_detector:
                 imc = im0.copy() if save_crop else im0  # for save_crop
                 annotator = Annotator(im0, line_width=line_thickness, example=str(names))
                 if len(det):
+
                     # Rescale boxes from img_size to im0 size
                     det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
 
