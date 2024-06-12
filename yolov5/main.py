@@ -52,7 +52,7 @@ class Pothole_detector:
 
     def run(self):
         yolov5_thread = threading.Thread(target=self.run_yolov5)
-        gps_thread =threading.Thread(target=self.GPS.read_gps_data())
+        #gps_thread =threading.Thread(target=self.GPS.read_gps_data())
         yolov5_thread.start()
         #gps_thread.start()
 
