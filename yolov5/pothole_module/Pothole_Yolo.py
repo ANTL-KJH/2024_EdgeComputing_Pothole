@@ -5,7 +5,7 @@ import platform
 import sys
 from pathlib import Path
 import torch
-
+import Pothole_information
 from ultralytics.utils.plotting import Annotator, colors, save_one_box
 from models.common import DetectMultiBackend
 from utils.dataloaders import IMG_FORMATS, VID_FORMATS, LoadImages, LoadScreenshots, LoadStreams
@@ -198,3 +198,7 @@ class PotholeDetector:
 
     def run(self):
         self.detect()
+
+if __name__=="__main__":
+    info = Pothole_information.information()
+    PotholeDetector(info)
