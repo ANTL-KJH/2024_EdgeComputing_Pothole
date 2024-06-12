@@ -56,7 +56,7 @@ class Pothole_detector:
 
 
     @smart_inference_mode()
-    def run(
+    def run_yolo(
         self,
         weights=ROOT / "best.pt",  # model path or triton URL
         source=ROOT / "data/images",  # file/dir/URL/glob/screen/0(webcam)
@@ -287,7 +287,7 @@ class Pothole_detector:
 
     def run_yolov5(self):
         opt = self.parse_opt()
-        self.run(**vars(opt))
+        self.run_yolo(**vars(opt))
 
 
 
