@@ -89,6 +89,7 @@ class Pothole_detector:
         dnn=False,  # use OpenCV DNN for ONNX inference
         vid_stride=1,  # video frame-rate stride
     ):
+        count = 0
         source = str(source)
         save_img = not nosave and not source.endswith(".txt")  # save inference images
         is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
@@ -184,8 +185,14 @@ class Pothole_detector:
                 annotator = Annotator(im0, line_width=line_thickness, example=str(names))
                 if len(det):
                     folium.Marker([self.GPS.latitude, self.GPS.logitude]).add_to(self.m)
+                    self.GPS.latitude -= 0.00087
+                    self.GPS.logitude += 0.00009
                     self.m.save('/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html')
-                    print("folium map saved")
+                    count += 1
+                    print("folium map saved ({}/5)".format(count))
+                    if count == 5:
+                        break
+
                     # Rescale boxes from img_size to im0 size
                     det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
 

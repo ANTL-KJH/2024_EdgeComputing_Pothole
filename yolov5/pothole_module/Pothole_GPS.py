@@ -4,8 +4,8 @@ import pynmea2
 
 class pothole_GPS:
     def __init__(self):
-        self.latitude = 35.830615
-        self.logitude = 128.754465
+        self.latitude = 35.830607
+        self.logitude = 128.755062
 
     def read_gps_data(self):
         # 시리얼 포트 설정 (적절한 포트와 보드레이트로 설정)
