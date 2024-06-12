@@ -5,7 +5,6 @@ import platform
 import sys
 from pathlib import Path
 import torch
-import Pothole_information
 
 from ultralytics.utils.plotting import Annotator, colors, save_one_box
 from models.common import DetectMultiBackend
