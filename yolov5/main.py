@@ -52,8 +52,9 @@ class Pothole_detector:
 
     def run(self):
         yolov5_thread = threading.Thread(target=self.run_yolov5)
+        gps_thread =threading.Thread(target=self.GPS.read_gps_data())
         yolov5_thread.start()
-
+        gps_thread.start()
 
 
 
@@ -185,13 +186,13 @@ class Pothole_detector:
                 annotator = Annotator(im0, line_width=line_thickness, example=str(names))
                 if len(det):
                     folium.Marker([self.GPS.latitude, self.GPS.logitude]).add_to(self.m)
-                    self.GPS.latitude -= 0.00087
+                    self.GPS.latitude -= 0.00085
                     self.GPS.logitude -= 0.00009
                     self.m.save('/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html')
                     count += 1
-                    print("folium map saved ({}/5)".format(count))
-                    if count == 5:
-                        return 
+                    print("folium map saved ({}/6)".format(count))
+                    if count == 6:
+                        exit(0)
 
                     # Rescale boxes from img_size to im0 size
                     det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
