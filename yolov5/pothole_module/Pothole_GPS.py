@@ -1,3 +1,5 @@
+import time
+
 import serial
 import pynmea2
 
@@ -26,5 +28,6 @@ class pothole_GPS:
             except Exception as e:
                 print("System::Can't get GPS pos")
             ser.close()
+            time.sleep(1)
 
 
