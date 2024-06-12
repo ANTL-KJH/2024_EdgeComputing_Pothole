@@ -49,7 +49,7 @@ class Pothole_detector:
 
 
     def run(self):
-        yolov5_thread = threading.Thread(target=self.run)
+        yolov5_thread = threading.Thread(target=self.run_yolov5)
         yolov5_thread.start()
 
 
