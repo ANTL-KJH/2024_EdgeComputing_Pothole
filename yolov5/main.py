@@ -15,6 +15,7 @@ class Pothole_detector:
     def run(self):
         yolov5_thread = threading.Thread(target=self.PotholeDetectorYOLO.run)
         yolov5_thread.start()
+        yolov5_thread.join()
         while True:
             print(self.info.detect)
             time.sleep(1)
