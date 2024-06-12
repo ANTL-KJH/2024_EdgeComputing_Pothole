@@ -191,6 +191,23 @@ class Pothole_detector:
                     self.m.save('/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html')
                     count += 1
                     print("folium map saved ({}/6)".format(count))
+
+                    def html_to_image(html_file_path, image_path):
+                        import imgkit
+                        imgkit.from_file(html_file_path, image_path)
+
+                    # 저장한 HTML 파일 경로
+                    html_file_path = '/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html'
+
+                    # HTML 파일을 이미지로 변환할 임시 파일 경로
+                    image_path = 'pothole_map.png'
+                    html_to_image(html_file_path, image_path)
+                    image = cv2.imread(image_path)
+
+                    # 이미지 출력
+                    cv2.imshow("Pothole Map", image)
+                    cv2.waitKey(0)
+                    cv2.destroyAllWindows()
                     if count == 6:
                         exit(0)
 
