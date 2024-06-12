@@ -186,12 +186,12 @@ class Pothole_detector:
                 if len(det):
                     folium.Marker([self.GPS.latitude, self.GPS.logitude]).add_to(self.m)
                     self.GPS.latitude -= 0.00087
-                    self.GPS.logitude += 0.00009
+                    self.GPS.logitude -= 0.00009
                     self.m.save('/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html')
                     count += 1
                     print("folium map saved ({}/5)".format(count))
                     if count == 5:
-                        break
+                        return 
 
                     # Rescale boxes from img_size to im0 size
                     det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
