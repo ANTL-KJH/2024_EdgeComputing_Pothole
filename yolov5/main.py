@@ -7,7 +7,7 @@ class Pothole_detector:
     def __init__(self):
         self.info=pothole_module.Pothole_information.information()
         self.GPS = pothole_module.Pothole_GPS.pothole_GPS()
-        self.PotholeDetectorYOLO = pothole_module.Pothole_Yolo.PotholeDetector(info)
+        self.PotholeDetectorYOLO = pothole_module.Pothole_Yolo.PotholeDetector(self.info)
 
 
     def run(self):
