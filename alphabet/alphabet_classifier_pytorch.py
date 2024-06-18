@@ -48,7 +48,7 @@ def load_datasets(data_dir):
             class_names.append(class_folder)
     return train_datasets, class_names
 
-def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
+def train_model(model, criterion, optimizer, train_loader, num_epochs=20):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
     # 모델 학습
-    num_epochs = 50
+    num_epochs = 20
     model = train_model(model, criterion, optimizer, train_loader, num_epochs=num_epochs)
 
     # 학습된 모델 저장
