@@ -50,7 +50,7 @@ def rotate_image(img, angle):
     return img.rotate(angle, expand=True)
 
 # 테스트할 이미지 경로 설정
-test_image_path = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\test\\test_c.jpg'  # 테스트할 이미지 파일 경로로 변경
+test_image_path = 'test_c.jpg'  # 테스트할 이미지 파일 경로로 변경
 
 # 크롭할 이미지 로드
 img = Image.open(test_image_path)
