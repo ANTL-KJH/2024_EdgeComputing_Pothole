@@ -130,7 +130,7 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
 
 
 if __name__ == '__main__':
-    data_dir = 'alpha_class'
+    data_dir = 'C:\\Users\\mch2d\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\alpha_class'
     train_datasets, class_names = load_datasets(data_dir)
 
     # 데이터 로더 구성
