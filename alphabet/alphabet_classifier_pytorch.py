@@ -7,16 +7,20 @@ from PIL import Image
 import os
 import copy
 import warnings
+import matplotlib.pyplot as plt
 
 # 경고 무시
 warnings.filterwarnings("ignore")
+
+
 # 커스텀 데이터셋 클래스 정의
 class CustomDataset(Dataset):
     def __init__(self, image_folder, label, transform=None):
         self.image_folder = image_folder
         self.label = label
         self.transform = transform
-        self.image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if img.endswith(('jpg', 'jpeg', 'png'))]
+        self.image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if
+                            img.endswith(('jpg', 'jpeg', 'png'))]
 
     def __len__(self):
         return len(self.image_paths)
@@ -28,6 +32,7 @@ class CustomDataset(Dataset):
             image = self.transform(image)
         return image, self.label
 
+
 # 데이터 전처리
 data_transforms = {
     'train': transforms.Compose([
@@ -37,6 +42,7 @@ data_transforms = {
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
 }
+
 
 def load_datasets(data_dir):
     train_datasets = []
@@ -48,9 +54,14 @@ def load_datasets(data_dir):
             class_names.append(class_folder)
     return train_datasets, class_names
 
+
 def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
+
+    # 학습 손실과 정확도를 저장할 리스트 초기화
+    train_losses = []
+    train_accuracies = []
 
     for epoch in range(num_epochs):
         print(f'Epoch {epoch}/{num_epochs - 1}')
@@ -81,6 +92,10 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
         epoch_loss = running_loss / len(train_loader.dataset)
         epoch_acc = running_corrects.double() / len(train_loader.dataset)
 
+        # 각 에포크의 손실과 정확도를 리스트에 저장
+        train_losses.append(epoch_loss)
+        train_accuracies.append(epoch_acc)
+
         print(f'Train Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
 
         if epoch_acc > best_acc:
@@ -90,7 +105,29 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
     print(f'Best Train Acc: {best_acc:4f}')
 
     model.load_state_dict(best_model_wts)
+
+    # 학습 손실과 정확도를 그래프로 출력
+    plt.figure(figsize=(10, 5))
+
+    plt.subplot(1, 2, 1)
+    plt.plot(train_losses, label='Train Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training Loss')
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.plot(train_accuracies, label='Train Accuracy')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.title('Training Accuracy')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
     return model
+
 
 if __name__ == '__main__':
     data_dir = 'alpha_class'
