@@ -19,7 +19,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = models.resnet18(pretrained=False)
 num_ftrs = model.fc.in_features
 model.fc = nn.Linear(num_ftrs, len(class_names))
-model.load_state_dict(torch.load('best_model.pth', map_location=device))
+model.load_state_dict(torch.load('C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\best_model.pth', map_location=device))
 model = model.to(device)
 model.eval()  # 모델을 평가 모드로 설정
 
@@ -84,7 +84,7 @@ def onclick(event):
                                           minspanx=5,
                                           minspany=5,
                                           spancoords='pixels',
-                                          lineprops=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
+                                          props=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
         fig.canvas.draw()
 
 # RectangleSelector 설정
@@ -94,7 +94,7 @@ rect_selector = RectangleSelector(ax, onselect,
                                   minspanx=5,
                                   minspany=5,
                                   spancoords='pixels',
-                                  lineprops=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
+                                  props=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
 
 fig.canvas.mpl_connect('button_press_event', onclick)  # 마우스 클릭 이벤트 연결
 

@@ -94,7 +94,7 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=25):
     return model
 
 if __name__ == '__main__':
-    data_dir = 'alpha_class'
+    data_dir = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\alpha_class'
     train_datasets, class_names = load_datasets(data_dir)
 
     # 데이터 로더 구성
@@ -117,4 +117,4 @@ if __name__ == '__main__':
     model = train_model(model, criterion, optimizer, train_loader, num_epochs=num_epochs)
 
     # 학습된 모델 저장
-    torch.save(model.state_dict(), 'best_model.pth')
+    torch.save(model.state_dict(), 'best_model_mobileNet.pth')
