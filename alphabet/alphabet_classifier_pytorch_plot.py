@@ -1,5 +1,53 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import transforms, models
+from torch.utils.data import DataLoader, Dataset
+from PIL import Image
+import os
+import copy
+import warnings
 import matplotlib.pyplot as plt
 
+class CustomDataset(Dataset):
+    def __init__(self, image_folder, label, transform=None):
+        self.image_folder = image_folder
+        self.label = label
+        self.transform = transform
+        self.image_paths = [os.path.join(image_folder, img) for img in os.listdir(image_folder) if
+                            img.endswith(('jpg', 'jpeg', 'png'))]
+
+    def __len__(self):
+        return len(self.image_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.image_paths[idx]
+        image = Image.open(img_path).convert('RGB')
+        if self.transform:
+            image = self.transform(image)
+        return image, self.label
+
+
+# 데이터 전처리
+data_transforms = {
+    'train': transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+}
+
+
+def load_datasets(data_dir):
+    train_datasets = []
+    class_names = []
+    for idx, class_folder in enumerate(sorted(os.listdir(data_dir))):
+        folder_path = os.path.join(data_dir, class_folder)
+        if os.path.isdir(folder_path):
+            train_datasets.append(CustomDataset(folder_path, idx, data_transforms['train']))
+            class_names.append(class_folder)
+    return train_datasets, class_names
 
 def train_model(model, criterion, optimizer, train_loader, num_epochs=20):
     best_model_wts = copy.deepcopy(model.state_dict())
@@ -33,10 +81,10 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=20):
                 optimizer.step()
 
             running_loss += loss.item() * inputs.size(0)
-            running_corrects += torch.sum(preds == labels.data)
+            running_corrects += torch.sum(preds == labels.data).item()  # 수정된 부분
 
         epoch_loss = running_loss / len(train_loader.dataset)
-        epoch_acc = running_corrects.double() / len(train_loader.dataset)
+        epoch_acc = running_corrects / len(train_loader.dataset)  # 수정된 부분
 
         print(f'Train Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
 
@@ -75,7 +123,7 @@ def train_model(model, criterion, optimizer, train_loader, num_epochs=20):
 
 
 if __name__ == '__main__':
-    data_dir = 'alpha_class'
+    data_dir = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\alpha_class'
     train_datasets, class_names = load_datasets(data_dir)
 
     # 데이터 로더 구성
