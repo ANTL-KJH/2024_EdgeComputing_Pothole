@@ -84,7 +84,7 @@ def onclick(event):
                                           minspanx=5,
                                           minspany=5,
                                           spancoords='pixels',
-                                          lineprops=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
+                                          props=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
         fig.canvas.draw()
 
 # RectangleSelector 설정
@@ -94,7 +94,7 @@ rect_selector = RectangleSelector(ax, onselect,
                                   minspanx=5,
                                   minspany=5,
                                   spancoords='pixels',
-                                  lineprops=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
+                                  props=dict(facecolor='red', edgecolor='black', alpha=0.5, fill=True))
 
 fig.canvas.mpl_connect('button_press_event', onclick)  # 마우스 클릭 이벤트 연결
 
