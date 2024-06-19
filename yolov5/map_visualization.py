@@ -3,7 +3,7 @@ import webbrowser
 import os
 import socket
 import threading
-
+import cv2
 class pothole_visualization:
     def __init__(self):
         # 지도 생성 (위치: 서울, 줌 레벨: 12)
@@ -77,14 +77,21 @@ class pothole_visualization:
                 # 예외 처리: 첫번째 쉼표를 찾을 수 없는 경우
                 print("Error: First comma not found in message.")
                 latitude, longitude, popup, recv_img = None, None, None, None
+            print(recv_img)
             location = [float(latitude), float(longitude)]
             image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
-            image_path = os.path.join("C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img", image_filename)  # 저장할 디렉토리 경로 설정
+            #image_path = os.path.join("C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img", image_filename)  # 저장할 디렉토리 경로 설정
+            image_np = cv2.imdecode(recv_img, cv2.IMREAD_COLOR)
 
-            with open(image_path, 'wb') as f:
-                f.write(recv_img)  # recv_img를 파일에 쓰기
+            # 저장할 파일 경로 설정
+            save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(image_filename)
 
-            self.add_marker(location, popup, image_path)
+            # 이미지 저장
+            cv2.imwrite(save_path, image_np)
+            #with open(image_path, 'wb') as f:
+            #    f.write(recv_img)  # recv_img를 파일에 쓰기
+
+            self.add_marker(location, popup, save_path)
 
 
 
