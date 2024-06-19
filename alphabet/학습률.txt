@@ -1,150 +1,201 @@
 Epoch 0/49
 ----------
-Train Loss: 3.2451 Acc: 0.0728
+train Loss: 3.3539 Acc: 0.0530
+val Loss: 3.1631 Acc: 0.0962
 Epoch 1/49
 ----------
-Train Loss: 2.6264 Acc: 0.3175
+train Loss: 2.9378 Acc: 0.1705
+val Loss: 2.7633 Acc: 0.2423
 Epoch 2/49
 ----------
-Train Loss: 1.8694 Acc: 0.6309
+train Loss: 2.4447 Acc: 0.3753
+val Loss: 2.2623 Acc: 0.4846
 Epoch 3/49
 ----------
-Train Loss: 1.2356 Acc: 0.8118
+train Loss: 1.8409 Acc: 0.5956
+val Loss: 1.7194 Acc: 0.6192
 Epoch 4/49
 ----------
-Train Loss: 0.8038 Acc: 0.8928
+train Loss: 1.3245 Acc: 0.7599
+val Loss: 1.2533 Acc: 0.7192
 Epoch 5/49
 ----------
-Train Loss: 0.5693 Acc: 0.9394
+train Loss: 0.9474 Acc: 0.8524
+val Loss: 0.9476 Acc: 0.7885
 Epoch 6/49
 ----------
-Train Loss: 0.4340 Acc: 0.9525
+train Loss: 0.7304 Acc: 0.8867
+val Loss: 0.7783 Acc: 0.8231
 Epoch 7/49
 ----------
-Train Loss: 0.3408 Acc: 0.9615
+train Loss: 0.5738 Acc: 0.9179
+val Loss: 0.6383 Acc: 0.8462
 Epoch 8/49
 ----------
-Train Loss: 0.2778 Acc: 0.9689
+train Loss: 0.4431 Acc: 0.9480
+val Loss: 0.5673 Acc: 0.8500
 Epoch 9/49
 ----------
-Train Loss: 0.2190 Acc: 0.9853
+train Loss: 0.3645 Acc: 0.9553
+val Loss: 0.5037 Acc: 0.8731
 Epoch 10/49
 ----------
-Train Loss: 0.1881 Acc: 0.9836
+train Loss: 0.3115 Acc: 0.9595
+val Loss: 0.4733 Acc: 0.8577
 Epoch 11/49
 ----------
-Train Loss: 0.1697 Acc: 0.9869
+train Loss: 0.2661 Acc: 0.9719
+val Loss: 0.4112 Acc: 0.9038
 Epoch 12/49
 ----------
-Train Loss: 0.1398 Acc: 0.9918
+train Loss: 0.2270 Acc: 0.9823
+val Loss: 0.3921 Acc: 0.8885
 Epoch 13/49
 ----------
-Train Loss: 0.1189 Acc: 0.9975
+train Loss: 0.1999 Acc: 0.9854
+val Loss: 0.3529 Acc: 0.9192
 Epoch 14/49
 ----------
-Train Loss: 0.1126 Acc: 0.9951
+train Loss: 0.1780 Acc: 0.9854
+val Loss: 0.3422 Acc: 0.8962
 Epoch 15/49
 ----------
-Train Loss: 0.0925 Acc: 0.9975
+train Loss: 0.1726 Acc: 0.9813
+val Loss: 0.3500 Acc: 0.9077
 Epoch 16/49
 ----------
-Train Loss: 0.0771 Acc: 0.9975
+train Loss: 0.1533 Acc: 0.9886
+val Loss: 0.3068 Acc: 0.9038
 Epoch 17/49
 ----------
-Train Loss: 0.0702 Acc: 0.9992
+train Loss: 0.1225 Acc: 0.9906
+val Loss: 0.2673 Acc: 0.9462
 Epoch 18/49
 ----------
-Train Loss: 0.0622 Acc: 1.0000
+train Loss: 0.1035 Acc: 0.9938
+val Loss: 0.2751 Acc: 0.9346
 Epoch 19/49
 ----------
-Train Loss: 0.0559 Acc: 0.9992
+train Loss: 0.1093 Acc: 0.9906
+val Loss: 0.2800 Acc: 0.9077
 Epoch 20/49
 ----------
-Train Loss: 0.0523 Acc: 1.0000
+train Loss: 0.0915 Acc: 0.9969
+val Loss: 0.2533 Acc: 0.9385
 Epoch 21/49
 ----------
-Train Loss: 0.0483 Acc: 0.9984
+train Loss: 0.0870 Acc: 0.9927
+val Loss: 0.2465 Acc: 0.9346
 Epoch 22/49
 ----------
-Train Loss: 0.0600 Acc: 0.9959
+train Loss: 0.0769 Acc: 0.9990
+val Loss: 0.2821 Acc: 0.9231
 Epoch 23/49
 ----------
-Train Loss: 0.0493 Acc: 0.9992
+train Loss: 0.0834 Acc: 0.9958
+val Loss: 0.2452 Acc: 0.9423
 Epoch 24/49
 ----------
-Train Loss: 0.0410 Acc: 1.0000
+train Loss: 0.0944 Acc: 0.9938
+val Loss: 0.2551 Acc: 0.9231
 Epoch 25/49
 ----------
-Train Loss: 0.0344 Acc: 1.0000
+train Loss: 0.0654 Acc: 0.9979
+val Loss: 0.2470 Acc: 0.9269
 Epoch 26/49
 ----------
-Train Loss: 0.0307 Acc: 1.0000
+train Loss: 0.0624 Acc: 0.9990
+val Loss: 0.2615 Acc: 0.9308
 Epoch 27/49
 ----------
-Train Loss: 0.0307 Acc: 0.9992
+train Loss: 0.0635 Acc: 0.9969
+val Loss: 0.2306 Acc: 0.9269
 Epoch 28/49
 ----------
-Train Loss: 0.0319 Acc: 1.0000
+train Loss: 0.0598 Acc: 0.9969
+val Loss: 0.2433 Acc: 0.9269
 Epoch 29/49
 ----------
-Train Loss: 0.0296 Acc: 0.9992
+train Loss: 0.0509 Acc: 1.0000
+val Loss: 0.2270 Acc: 0.9269
 Epoch 30/49
 ----------
-Train Loss: 0.0306 Acc: 0.9975
+train Loss: 0.0506 Acc: 0.9979
+val Loss: 0.1950 Acc: 0.9462
 Epoch 31/49
 ----------
-Train Loss: 0.0326 Acc: 0.9992
+train Loss: 0.0507 Acc: 0.9979
+val Loss: 0.1953 Acc: 0.9423
 Epoch 32/49
 ----------
-Train Loss: 0.0275 Acc: 1.0000
+train Loss: 0.0601 Acc: 0.9948
+val Loss: 0.2231 Acc: 0.9346
 Epoch 33/49
 ----------
-Train Loss: 0.0212 Acc: 1.0000
+train Loss: 0.0563 Acc: 0.9969
+val Loss: 0.2176 Acc: 0.9385
 Epoch 34/49
 ----------
-Train Loss: 0.0244 Acc: 1.0000
+train Loss: 0.0466 Acc: 0.9990
+val Loss: 0.2330 Acc: 0.9308
 Epoch 35/49
 ----------
-Train Loss: 0.0213 Acc: 1.0000
+train Loss: 0.0454 Acc: 0.9990
+val Loss: 0.1993 Acc: 0.9308
 Epoch 36/49
 ----------
-Train Loss: 0.0187 Acc: 1.0000
+train Loss: 0.0422 Acc: 0.9990
+val Loss: 0.2074 Acc: 0.9346
 Epoch 37/49
 ----------
-Train Loss: 0.0184 Acc: 1.0000
+train Loss: 0.0335 Acc: 1.0000
+val Loss: 0.1679 Acc: 0.9654
 Epoch 38/49
 ----------
-Train Loss: 0.0200 Acc: 1.0000
+train Loss: 0.0311 Acc: 0.9990
+val Loss: 0.2094 Acc: 0.9231
 Epoch 39/49
 ----------
-Train Loss: 0.0181 Acc: 1.0000
+train Loss: 0.0375 Acc: 0.9938
+val Loss: 0.2095 Acc: 0.9308
 Epoch 40/49
 ----------
-Train Loss: 0.0177 Acc: 1.0000
+train Loss: 0.0347 Acc: 0.9990
+val Loss: 0.2097 Acc: 0.9269
 Epoch 41/49
 ----------
-Train Loss: 0.0165 Acc: 1.0000
+train Loss: 0.0459 Acc: 0.9969
+val Loss: 0.2323 Acc: 0.9154
 Epoch 42/49
 ----------
-Train Loss: 0.0169 Acc: 1.0000
+train Loss: 0.0380 Acc: 0.9979
+val Loss: 0.2233 Acc: 0.9346
 Epoch 43/49
 ----------
-Train Loss: 0.0159 Acc: 1.0000
+train Loss: 0.0374 Acc: 0.9979
+val Loss: 0.2204 Acc: 0.9231
 Epoch 44/49
 ----------
-Train Loss: 0.0156 Acc: 1.0000
+train Loss: 0.0335 Acc: 0.9979
+val Loss: 0.2071 Acc: 0.9500
 Epoch 45/49
 ----------
-Train Loss: 0.0125 Acc: 1.0000
+train Loss: 0.0296 Acc: 1.0000
+val Loss: 0.2036 Acc: 0.9346
 Epoch 46/49
 ----------
-Train Loss: 0.0135 Acc: 1.0000
+train Loss: 0.0276 Acc: 1.0000
+val Loss: 0.2026 Acc: 0.9346
 Epoch 47/49
 ----------
-Train Loss: 0.0140 Acc: 1.0000
+train Loss: 0.0233 Acc: 0.9990
+val Loss: 0.1773 Acc: 0.9385
 Epoch 48/49
 ----------
-Train Loss: 0.0123 Acc: 1.0000
+train Loss: 0.0244 Acc: 1.0000
+val Loss: 0.1974 Acc: 0.9269
 Epoch 49/49
 ----------
-Train Loss: 0.0109 Acc: 1.0000
+train Loss: 0.0314 Acc: 0.9979
+val Loss: 0.2124 Acc: 0.9308
+Best val Acc: 0.965385

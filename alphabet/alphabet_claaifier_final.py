@@ -35,9 +35,7 @@ data_transforms = {
     'train': transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(10),
         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),
-        transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
@@ -147,7 +145,7 @@ def train_model(model, criterion, optimizer, train_loader, val_loader, num_epoch
     return model
 
 if __name__ == '__main__':
-    data_dir = 'alpha_class'
+    data_dir = 'C:\\Users\\mch2d\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\alphabet\\alpha_class'
     datasets, class_names = load_datasets(data_dir)
 
     # 데이터 로더 구성
@@ -178,7 +176,7 @@ if __name__ == '__main__':
     optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
     # 모델 학습
-    num_epochs = 20
+    num_epochs = 50
     model = train_model(model, criterion, optimizer, train_loader, val_loader, num_epochs=num_epochs)
 
     # 학습된 모델 저장
