@@ -50,6 +50,7 @@ class pothole_visualization:
         while True:
             data, addr = self.sock.recvfrom(65536)
             message = data.decode("utf-8")
+            print(message)
             comma_idx = message.find(',')
             latitude = message[:comma_idx]
             message = message[comma_idx+1:]

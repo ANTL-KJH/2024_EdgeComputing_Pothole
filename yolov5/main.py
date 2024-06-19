@@ -192,19 +192,21 @@ class Pothole_detector:
                     print(type(im0))
                     im0_resized = cv2.resize(im0, (160, 90))
                     im0_resized_jpg = cv2.imencode('.jpg', im0_resized)[1].tobytes()
-                    print(im0_resized_jpg)
+
                     # 원하는 포맷으로 출력하기 위해 strftime 메서드를 사용합니다.
                     formatted_time = now.strftime("%Y%m%d-%H%M%S")
                     message = f"{self.GPS.latitude},{self.GPS.longitude},{formatted_time},{im0_resized_jpg}"
                     self.sock.sendto(message.encode('utf-8'), (self.server_address, self.server_port))
-                    image_filename = f"image_{formatted_time}.jpg"
+                    print(message)
+
+                    #image_filename = f"image_{formatted_time}.jpg"
 
                     # 파일 경로 설정
-                    save_path = image_filename  # 현재 경로에 저장 예시
+                    #save_path = image_filename  # 현재 경로에 저장 예시
 
                     # 파일에 이미지 데이터 저장
-                    with open(save_path, 'wb') as f:
-                        f.write(im0_resized_jpg)
+                    #with open(save_path, 'wb') as f:
+                    #    f.write(im0_resized_jpg)
 
                     #folium.Marker([self.GPS.latitude, self.GPS.longitude]).add_to(self.m)
                     self.GPS.latitude -= 0.00085
