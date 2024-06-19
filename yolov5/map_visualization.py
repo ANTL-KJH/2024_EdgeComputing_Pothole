@@ -61,7 +61,6 @@ class pothole_visualization:
             popup = message[:comma_idx]
             message = message[comma_idx+1:]
             recv_img_str = message[2:-1]  # 이미지 데이터를 문자열로 받음
-            recv_img_str.decode('latin1')
 
 
             image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
