@@ -50,33 +50,25 @@ class pothole_visualization:
         while True:
             data, addr = self.sock.recvfrom(65536)
             message = data.decode("utf-8")
-            #print(message)
-            comma_idx = message.find(',')
-            latitude = message[:comma_idx]
-            message = message[comma_idx+1:]
-            comma_idx = message.find(',')
-            longitude = message[:comma_idx]
-            message = message[comma_idx + 1:]
-            comma_idx = message.find(',')
-            popup = message[:comma_idx]
-            message = message[comma_idx+1:]
-            recv_img_str = message[2:-1]  # 이미지 데이터를 문자열로 받음
-
+            latitude, longitude, popup = message.split(',')
+            print(f"{latitude}, {longitude}, {popup}")
 
             image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
             save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(
                 image_filename)
+            img, addr = self.sock.recvfrom(65536)
+
             # 문자열을 바이너리로 변환
-            print(recv_img_str)
-            print(type(recv_img_str))
-            recv_img = recv_img_str.encode('latin1')
-            print(recv_img)
-            print(type(recv_img))
+            print(img)
+            print(type(img))
+            #recv_img = recv_img_str.encode('latin1')
+            #print(recv_img)
+            #print(type(recv_img))
             with open(save_path, 'wb') as f:
-                f.write(recv_img)
-
-
-            location = [float(latitude), float(longitude)]
+                f.write(img)
+#
+#
+            #location = [float(latitude), float(longitude)]
 
             #self.add_marker(location, popup, save_path)
 
