@@ -79,7 +79,7 @@ class pothole_visualization:
                 latitude, longitude, popup, recv_img = None, None, None, None
             location = [float(latitude), float(longitude)]
             image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
-            image_path = os.path.join("\\img", image_filename)  # 저장할 디렉토리 경로 설정
+            image_path = os.path.join("C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img", image_filename)  # 저장할 디렉토리 경로 설정
 
             with open(image_path, 'wb') as f:
                 f.write(recv_img)  # recv_img를 파일에 쓰기
