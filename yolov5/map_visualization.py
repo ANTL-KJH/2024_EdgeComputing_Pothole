@@ -50,7 +50,7 @@ class pothole_visualization:
         while True:
             data, addr = self.sock.recvfrom(65536)
             message = data.decode("utf-8")
-            print(message)
+            #print(message)
             comma_idx = message.find(',')
             latitude = message[:comma_idx]
             message = message[comma_idx+1:]
@@ -60,28 +60,25 @@ class pothole_visualization:
             comma_idx = message.find(',')
             popup = message[:comma_idx]
             message = message[comma_idx+1:]
-            recv_img_str = message[comma_idx + 1:-1]  # 이미지 데이터를 문자열로 받음
+            recv_img_str = message[:-1]  # 이미지 데이터를 문자열로 받음
+
+
 
             image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
             save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(
                 image_filename)
             # 문자열을 바이너리로 변환
+            print(recv_img_str)
             recv_img = recv_img_str.encode('latin1')
+            print(recv_img)
+            print(type(recv_img))
             with open(save_path, 'wb') as f:
                 f.write(recv_img)
 
-            print(recv_img)
-            print(type(recv_img))
+
             location = [float(latitude), float(longitude)]
-            image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
-            image_np = cv2.imdecode(np.frombuffer(recv_img, dtype=np.uint8), cv2.IMREAD_COLOR)
-            # 저장할 파일 경로 설정
-            save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(
-                image_filename)
-            print(image_np)
-            # 이미지 저장
-            cv2.imwrite(save_path, image_np)
-            self.add_marker(location, popup, save_path)
+
+            #self.add_marker(location, popup, save_path)
 
 
 
