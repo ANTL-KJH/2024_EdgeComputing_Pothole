@@ -189,7 +189,7 @@ class Pothole_detector:
                 annotator = Annotator(im0, line_width=line_thickness, example=str(names))
                 if len(det):
                     now = datetime.now()
-                    im0_resized = cv2.resize(im0, (320, 180))
+                    im0_resized = cv2.resize(im0, (160, 90))
                     im0_resized_jpg = cv2.imencode('.jpg', im0_resized)[1].tobytes()
                     # 원하는 포맷으로 출력하기 위해 strftime 메서드를 사용합니다.
                     formatted_time = now.strftime("%Y.%m.%d %H:%M:%S")
