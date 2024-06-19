@@ -59,10 +59,16 @@ class pothole_visualization:
             comma_idx = message.find(',')
             popup = message[:comma_idx]
             message = message[comma_idx+1:]
-            recv_img_str = message[comma_idx + 1:]  # 이미지 데이터를 문자열로 받음
+            recv_img_str = message[comma_idx + 1:-1]  # 이미지 데이터를 문자열로 받음
 
+            image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
+            save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(
+                image_filename)
             # 문자열을 바이너리로 변환
             recv_img = recv_img_str.encode('latin1')
+            with open(save_path, 'wb') as f:
+                f.write(recv_img)
+
             print(recv_img)
             print(type(recv_img))
             location = [float(latitude), float(longitude)]
