@@ -196,7 +196,7 @@ class Pothole_detector:
                     # 원하는 포맷으로 출력하기 위해 strftime 메서드를 사용합니다.
                     formatted_time = now.strftime("%Y%m%d-%H%M%S")
                     message = f"{self.GPS.latitude},{self.GPS.longitude},{formatted_time},{im0_resized_jpg}"
-                    self.sock.sendto(message.encode('utf-8'), (self.server_address, self.server_port))
+                    self.sock.sendto(message, (self.server_address, self.server_port))
                     print(message)
 
                     #image_filename = f"image_{formatted_time}.jpg"
