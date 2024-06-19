@@ -6,10 +6,10 @@ import os
 import platform
 import sys
 from pathlib import Path
-
+import socket
 import torch
 import folium
-
+from datetime import datetime
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -49,6 +49,9 @@ class Pothole_detector:
         self.GPS = pothole_module.Pothole_GPS.pothole_GPS()
         self.detect = False
         self.m = folium.Map(location=[35.830615, 128.754465], zoom_start=14)
+        self.server_address = "165.229.185.185"
+        self.server_port = 8080
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     def run(self):
         yolov5_thread = threading.Thread(target=self.run_yolov5)
@@ -185,10 +188,19 @@ class Pothole_detector:
                 imc = im0.copy() if save_crop else im0  # for save_crop
                 annotator = Annotator(im0, line_width=line_thickness, example=str(names))
                 if len(det):
-                    folium.Marker([self.GPS.latitude, self.GPS.logitude]).add_to(self.m)
+                    now = datetime.now()
+                    im0_resized = cv2.resize(im0, (320, 180))
+                    im0_resized_jpg = cv2.imencode('.jpg', im0_resized)[1].tobytes()
+                    # 원하는 포맷으로 출력하기 위해 strftime 메서드를 사용합니다.
+                    formatted_time = now.strftime("%Y.%m.%d %H:%M:%S")
+                    message = f"{self.GPS.latitude},{self.GPS.longitude},{formatted_time},{im0_resized_jpg}"
+                    self.sock.sendto(message.encode('utf-8'), (self.server_address, self.server_port))
+
+
+                    #folium.Marker([self.GPS.latitude, self.GPS.longitude]).add_to(self.m)
                     self.GPS.latitude -= 0.00085
-                    self.GPS.logitude -= 0.00009
-                    self.m.save('/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html')
+                    self.GPS.longitude -= 0.00009
+                    #self.m.save('/home/ubuntu/2024_EdgeComputing_Pothole/yolov5/pothole_map.html')
                     count += 1
                     print("folium map saved ({}/6)".format(count))
                     if count == 6:

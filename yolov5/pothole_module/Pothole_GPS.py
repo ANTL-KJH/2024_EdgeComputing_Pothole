@@ -7,7 +7,7 @@ import pynmea2
 class pothole_GPS:
     def __init__(self):
         self.latitude = 35.830700
-        self.logitude = 128.755062
+        self.longitude = 128.755062
 
     def read_gps_data(self):
         while True:
@@ -24,7 +24,7 @@ class pothole_GPS:
                     if line.startswith('$GNGGA') or line.startswith('$GPGGA'):
                         msg = pynmea2.parse(line)
                         self.latitude = msg.latitude
-                        self.logitude = msg.longitude
+                        self.longitude = msg.longitude
             except Exception as e:
                 print("System::Can't get GPS pos")
             ser.close()
