@@ -4,6 +4,7 @@ import os
 import socket
 import threading
 import cv2
+import numpy as np
 class pothole_visualization:
     def __init__(self):
         # 지도 생성 (위치: 서울, 줌 레벨: 12)
@@ -49,48 +50,30 @@ class pothole_visualization:
         while True:
             data, addr = self.sock.recvfrom(65536)
             message = data.decode("utf-8")
-            first_comma_idx = message.find(',')
-            if first_comma_idx != -1:
-                latitude = message[:first_comma_idx]
-                remaining_message = message[first_comma_idx + 1:]
+            comma_idx = message.find(',')
+            latitude = message[:comma_idx]
+            message = message[comma_idx+1:]
+            comma_idx = message.find(',')
+            longitude = message[:comma_idx]
+            message = message[comma_idx + 1:]
+            comma_idx = message.find(',')
+            popup = message[:comma_idx]
+            message = message[comma_idx+1:]
+            recv_img_str = message[comma_idx + 1:]  # 이미지 데이터를 문자열로 받음
 
-                # 두번째 쉼표 위치 찾기
-                second_comma_idx = remaining_message.find(',')
-                if second_comma_idx != -1:
-                    longitude = remaining_message[:second_comma_idx]
-                    remaining_message = remaining_message[second_comma_idx + 1:]
-
-                    # 세번째 쉼표 위치 찾기
-                    third_comma_idx = remaining_message.find(',')
-                    if third_comma_idx != -1:
-                        popup = remaining_message[:third_comma_idx]
-                        recv_img = remaining_message[third_comma_idx + 1:]
-                    else:
-                        # 예외 처리: 세번째 쉼표를 찾을 수 없는 경우
-                        print("Error: Third comma not found in message.")
-                        latitude, longitude, popup, recv_img = None, None, None, None
-                else:
-                    # 예외 처리: 두번째 쉼표를 찾을 수 없는 경우
-                    print("Error: Second comma not found in message.")
-                    latitude, longitude, popup, recv_img = None, None, None, None
-            else:
-                # 예외 처리: 첫번째 쉼표를 찾을 수 없는 경우
-                print("Error: First comma not found in message.")
-                latitude, longitude, popup, recv_img = None, None, None, None
+            # 문자열을 바이너리로 변환
+            recv_img = recv_img_str.encode('latin1')
             print(recv_img)
+            print(type(recv_img))
             location = [float(latitude), float(longitude)]
             image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
-            #image_path = os.path.join("C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img", image_filename)  # 저장할 디렉토리 경로 설정
-            image_np = cv2.imdecode(recv_img, cv2.IMREAD_COLOR)
-
+            image_np = cv2.imdecode(np.frombuffer(recv_img, dtype=np.uint8), cv2.IMREAD_COLOR)
             # 저장할 파일 경로 설정
-            save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(image_filename)
-
+            save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(
+                image_filename)
+            print(image_np)
             # 이미지 저장
             cv2.imwrite(save_path, image_np)
-            #with open(image_path, 'wb') as f:
-            #    f.write(recv_img)  # recv_img를 파일에 쓰기
-
             self.add_marker(location, popup, save_path)
 
 
