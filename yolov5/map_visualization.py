@@ -2,9 +2,7 @@ import folium
 import webbrowser
 import os
 import socket
-import threading
-import cv2
-import numpy as np
+import base64
 class pothole_visualization:
     def __init__(self):
         # 지도 생성 (위치: 서울, 줌 레벨: 12)
@@ -15,6 +13,9 @@ class pothole_visualization:
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((self.UDP_IP, self.UDP_PORT))
+
+        # 이미지 저장할 경로 설정
+        self.image_save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\'
 
     # HTML 파일 저장 함수
     def save_map(self):
@@ -31,57 +32,50 @@ class pothole_visualization:
         with open("map.html", "w") as file:
             file.write(html_content)
 
-        # HTML 파일 열기
-        webbrowser.open("map.html")
-
     # 지도에 마커 추가 함수
     def add_marker(self, location, popup, image):
-        popup_content = f'<img src="{image}" alt="{popup}" width="150" height="100"><br>{popup}'
-        popup = folium.Popup(popup_content, max_width=200)
-        folium.Marker(
-            location=location,
-            popup=popup,
-        ).add_to(map)
-        self.save_map()
+        with open(image, 'rb') as image_file:
+            encoded_image = base64.b64encode(image_file.read()).decode()
 
+        # HTML로 변환된 base64 이미지 태그 생성
+        image_html = f'<img src="data:image/jpeg;base64,{encoded_image}" width="300"><br>{popup}'
+
+        # 마커 추가
+        folium.Marker(
+            location=location,  # 마커를 추가할 위치 (위도, 경도)
+            popup=folium.Popup(image_html, max_width=300),  # 팝업에 이미지 추가
+            tooltip='클릭하면 이미지가 나타납니다.'
+        ).add_to(self.map)
 
     # UDP 수신 함수
     def receive_data(self):
-        while True:
+        count = 0
+        while count <=5:
             data, addr = self.sock.recvfrom(65536)
             message = data.decode("utf-8")
             latitude, longitude, popup = message.split(',')
-            print(f"{latitude}, {longitude}, {popup}")
+            print(f"Latitude:{latitude}, Longitude:{longitude}, Time:{popup}")
 
-            image_filename = f"received_image_{popup}.jpg"  # 예시로 jpg 확장자 사용
-            save_path = 'C:\\Users\\ANTL\\Desktop\\GitHub\\2024_EdgeComputing_Pothole\\yolov5\\img\\{}'.format(
-                image_filename)
-            img, addr = self.sock.recvfrom(65536)
+            # 이미지 데이터 수신
+            img_data, addr = self.sock.recvfrom(65536)
 
-            # 문자열을 바이너리로 변환
-            print(img)
-            print(type(img))
-            #recv_img = recv_img_str.encode('latin1')
-            #print(recv_img)
-            #print(type(recv_img))
+            # 이미지 데이터를 파일로 저장
+            image_filename = f"received_image_{popup.strip()}.jpg"  # 예시로 jpg 확장자 사용
+            save_path = os.path.join(self.image_save_path, image_filename)
+
             with open(save_path, 'wb') as f:
-                f.write(img)
-#
-#
-            #location = [float(latitude), float(longitude)]
+                f.write(img_data)
 
-            #self.add_marker(location, popup, save_path)
-
-
-
-
+            # 마커 추가
+            location = [float(latitude), float(longitude)]
+            self.add_marker(location, popup, save_path)
+            count +=1
 
 def main():
     pv = pothole_visualization()
-    thread = threading.Thread(target=pv.receive_data)
-    thread.start()
-    pv.save_map()
+    pv.receive_data()
+    pv.map.save("map.html")
+    webbrowser.open("map.html")  # 프로그램 시작 시 한 번만 호출하여 지도를 열도록 변경
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     main()

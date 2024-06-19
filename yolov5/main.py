@@ -333,8 +333,5 @@ def main():
     pth_detector = Pothole_detector()
     pth_detector.run()
 
-
-
-
 if __name__ == "__main__":
     main()
